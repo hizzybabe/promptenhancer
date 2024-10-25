@@ -30,7 +30,8 @@ def enhance_prompt():
         enhanced_prompt = response.text
         return jsonify({"enhanced_prompt": enhanced_prompt})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error in enhance_prompt: {str(e)}")
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):
