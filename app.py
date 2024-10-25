@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()  # This line goes near the top of the file
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 
 # Configure the Gemini API
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
