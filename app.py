@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
@@ -31,6 +31,10 @@ def enhance_prompt():
         return jsonify({"enhanced_prompt": enhanced_prompt})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(app.static_folder, filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
