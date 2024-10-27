@@ -1,9 +1,10 @@
 async function enhancePrompt() {
     const inputPrompt = document.getElementById('inputPrompt').value;
     const aiType = document.getElementById('aiType').value;
+    const wordCount = document.getElementById('wordCount').value;
     const enhancedPromptElement = document.getElementById('enhancedPrompt');
 
-    enhancedPromptElement.textContent = 'Enhancing prompt...';
+    enhancedPromptElement.innerHTML = '<em>Enhancing prompt...</em>';
 
     try {
         const response = await fetch('/enhance', {
@@ -13,7 +14,8 @@ async function enhancePrompt() {
             },
             body: JSON.stringify({ 
                 prompt: inputPrompt,
-                aiType: aiType 
+                aiType: aiType,
+                wordCount: parseInt(wordCount)
             }),
         });
 
@@ -22,9 +24,10 @@ async function enhancePrompt() {
         }
 
         const data = await response.json();
-        enhancedPromptElement.textContent = data.enhanced_prompt;
+        // Convert markdown to HTML (you'll need to add marked.js library)
+        enhancedPromptElement.innerHTML = marked.parse(data.enhanced_prompt);
     } catch (error) {
         console.error('Error:', error);
-        enhancedPromptElement.textContent = 'An error occurred while enhancing the prompt.';
+        enhancedPromptElement.innerHTML = '<span class="text-red-500">Error enhancing prompt</span>';
     }
 }

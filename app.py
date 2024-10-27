@@ -19,6 +19,7 @@ def enhance_prompt():
     data = request.json
     input_prompt = data.get('prompt')
     ai_type = data.get('aiType', 'chatbot')  # Default to chatbot if not specified
+    word_count = data.get('wordCount', 100)  # Default to 100 words if not specified
 
     if not input_prompt:
         return jsonify({"error": "No prompt provided"}), 400
@@ -29,14 +30,29 @@ def enhance_prompt():
         
         if ai_type == 'image':
             prompt_template = (
-                "Enhance and improve the following prompt for AI image generation "
-                "(like Midjourney, Stable Diffusion). Focus on visual details, style, "
-                "lighting, composition, and artistic elements: {input_prompt}"
+                "Enhance and improve the following prompt for AI image generation. "
+                "Structure your response using the following format:\n\n"
+                "# Main Prompt\n"
+                "[Core prompt description]\n\n"
+                "## Visual Details\n"
+                "- [List key visual elements]\n\n"
+                "## Style & Lighting\n"
+                "- [List style and lighting specifications]\n\n"
+                "## Composition\n"
+                "- [List composition elements]\n\n"
+                f"Provide a response of approximately {word_count} words for: {input_prompt}"
             )
         else:  # chatbot
             prompt_template = (
-                "Enhance and improve the following prompt for a conversational AI "
-                "chatbot. Focus on clarity, specificity, and context: {input_prompt}"
+                "Enhance and improve the following prompt for a conversational AI chatbot. "
+                "Structure your response using the following format:\n\n"
+                "# Enhanced Prompt\n"
+                "[Main prompt]\n\n"
+                "## Context\n"
+                "- [Key context points]\n\n"
+                "## Specifications\n"
+                "- [Important details]\n\n"
+                f"Provide a response of approximately {word_count} words for: {input_prompt}"
             )
 
         response = model.generate_content(prompt_template.format(input_prompt=input_prompt))
