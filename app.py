@@ -18,14 +18,28 @@ def index():
 def enhance_prompt():
     data = request.json
     input_prompt = data.get('prompt')
+    ai_type = data.get('aiType', 'chatbot')  # Default to chatbot if not specified
 
     if not input_prompt:
         return jsonify({"error": "No prompt provided"}), 400
 
     try:
-        # Use Gemini API to enhance the prompt
+        # Use Gemini API to enhance the prompt based on AI type
         model = genai.GenerativeModel('gemini-pro')
-        response = model.generate_content(f"Enhance and improve the following prompt or description for an AI model: {input_prompt}")
+        
+        if ai_type == 'image':
+            prompt_template = (
+                "Enhance and improve the following prompt for AI image generation "
+                "(like Midjourney, Stable Diffusion). Focus on visual details, style, "
+                "lighting, composition, and artistic elements: {input_prompt}"
+            )
+        else:  # chatbot
+            prompt_template = (
+                "Enhance and improve the following prompt for a conversational AI "
+                "chatbot. Focus on clarity, specificity, and context: {input_prompt}"
+            )
+
+        response = model.generate_content(prompt_template.format(input_prompt=input_prompt))
         
         enhanced_prompt = response.text
         return jsonify({"enhanced_prompt": enhanced_prompt})

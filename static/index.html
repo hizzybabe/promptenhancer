@@ -10,6 +10,13 @@
     <div class="max-w-3xl mx-auto">
         <h1 class="text-3xl font-bold text-center text-gray-900 mb-8">Prompt Enhancer</h1>
         <div class="bg-white shadow-md rounded-lg p-6">
+            <div class="mb-4">
+                <label for="aiType" class="block text-sm font-medium text-gray-700 mb-2">Select AI Type:</label>
+                <select id="aiType" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="chatbot">Normal Chatbots (ChatGPT, Claude, etc.)</option>
+                    <option value="image">AI Image Generator (Midjourney, Stable Diffusion, etc.)</option>
+                </select>
+            </div>
             <textarea id="inputPrompt" class="w-full h-40 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Enter your prompt draft or describe what you want to accomplish..."></textarea>
             <button onclick="enhancePrompt()" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out">Enhance Prompt</button>
         </div>

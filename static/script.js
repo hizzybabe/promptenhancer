@@ -1,5 +1,6 @@
 async function enhancePrompt() {
     const inputPrompt = document.getElementById('inputPrompt').value;
+    const aiType = document.getElementById('aiType').value;
     const enhancedPromptElement = document.getElementById('enhancedPrompt');
 
     enhancedPromptElement.textContent = 'Enhancing prompt...';
@@ -10,7 +11,10 @@ async function enhancePrompt() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ prompt: inputPrompt }),
+            body: JSON.stringify({ 
+                prompt: inputPrompt,
+                aiType: aiType 
+            }),
         });
 
         if (!response.ok) {
