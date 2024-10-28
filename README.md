@@ -1,3 +1,5 @@
+![banner](banner.png)
+
 # Prompt Enhancer
 
 Prompt Enhancer is a web application that uses the Gemini API to improve and enhance user-provided prompts or descriptions for AI models.
