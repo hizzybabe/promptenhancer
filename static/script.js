@@ -2,6 +2,7 @@ async function enhancePrompt() {
     const inputPrompt = document.getElementById('inputPrompt').value;
     const aiType = document.getElementById('aiType').value;
     const wordCount = document.getElementById('wordCount').value;
+    const language = document.getElementById('language').value;
     const enhancedPromptElement = document.getElementById('enhancedPrompt');
 
     enhancedPromptElement.innerHTML = '<em>Enhancing prompt...</em>';
@@ -15,7 +16,8 @@ async function enhancePrompt() {
             body: JSON.stringify({ 
                 prompt: inputPrompt,
                 aiType: aiType,
-                wordCount: parseInt(wordCount)
+                wordCount: parseInt(wordCount),
+                language: language
             }),
         });
 
@@ -24,7 +26,6 @@ async function enhancePrompt() {
         }
 
         const data = await response.json();
-        // Convert markdown to HTML (you'll need to add marked.js library)
         enhancedPromptElement.innerHTML = marked.parse(data.enhanced_prompt);
     } catch (error) {
         console.error('Error:', error);

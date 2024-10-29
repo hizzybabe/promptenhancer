@@ -18,18 +18,21 @@ def index():
 def enhance_prompt():
     data = request.json
     input_prompt = data.get('prompt')
-    ai_type = data.get('aiType', 'chatbot')  # Default to chatbot if not specified
-    word_count = data.get('wordCount', 100)  # Default to 100 words if not specified
+    ai_type = data.get('aiType', 'chatbot')
+    word_count = data.get('wordCount', 100)
+    language = data.get('language', 'en')
 
     if not input_prompt:
         return jsonify({"error": "No prompt provided"}), 400
 
     try:
-        # Use Gemini API to enhance the prompt based on AI type
         model = genai.GenerativeModel('gemini-pro')
+        
+        language_instruction = f"Provide the response in {language} language. "
         
         if ai_type == 'image':
             prompt_template = (
+                f"{language_instruction}"
                 "Enhance and improve the following prompt for AI image generation. "
                 "Structure your response using the following format:\n\n"
                 "# Main Prompt\n"
@@ -44,6 +47,7 @@ def enhance_prompt():
             )
         else:  # chatbot
             prompt_template = (
+                f"{language_instruction}"
                 "Enhance and improve the following prompt for a conversational AI chatbot. "
                 "Structure your response using the following format:\n\n"
                 "# Enhanced Prompt\n"
@@ -55,8 +59,7 @@ def enhance_prompt():
                 f"Provide a response of approximately {word_count} words for: {input_prompt}"
             )
 
-        response = model.generate_content(prompt_template.format(input_prompt=input_prompt))
-        
+        response = model.generate_content(prompt_template)
         enhanced_prompt = response.text
         return jsonify({"enhanced_prompt": enhanced_prompt})
     except Exception as e:
